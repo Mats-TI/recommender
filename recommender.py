@@ -47,3 +47,14 @@ plt.show()'''
 
 kprototype=KPrototypes(n_jobs=-1,n_clusters=3,init='Huang',random_state=0)
 kprototype.fit_predict(movieMatrix,categorical=CategoricalColumnPositions)
+
+# These are the centroids of the three clusters
+#print(kprototype.cluster_centroids_)
+
+#Addition of the cluster to the dataFrame
+moviesData['cluster_lables']=kprototype.labels_
+moviesData['segment']=moviesData['cluster_lables'].map({0:'First',1:'Second',2:'Third'})
+
+#Ordering of the clusters
+moviesData['segment']=moviesData['segment'].astype('category')
+moviesData['segment'].cat.reorder_categories(['First','Second','Third'])
