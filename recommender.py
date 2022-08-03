@@ -58,3 +58,13 @@ moviesData['segment']=moviesData['cluster_lables'].map({0:'First',1:'Second',2:'
 #Ordering of the clusters
 moviesData['segment']=moviesData['segment'].astype('category')
 moviesData['segment'].cat.reorder_categories(['First','Second','Third'])
+
+## One-hot encoding is used to present categorical data to the ML model. Useful to select which columns are necessary, in this case all categorical columns selected.
+ohe=preprocessing.OneHotEncoder()
+encodedCategoricalData=ohe.fit_transform(moviesData[['status','title','genres','keywords','original_language','original_title','overview','production_companies','production_countries','release_date','spoken_languages','tagline','segment']]).toarray()
+
+#Create labels for the encoded data
+CategoricalDataLabels=np.array(ohe.categories_).ravel()
+print(CategoricalDataLabels)
+
+encodedDF=pd.DataFrame(encodedCategoricalData,columns=CategoricalDataLabels)
